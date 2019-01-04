@@ -8,6 +8,8 @@ defmodule PingPong do
       {sender, action, turn} ->
         hit_to(sender, :pong, turn + 1)
         ready
+    after
+      1_000 -> IO.puts("Timing out #{inspect(player_id)}")
     end
   end
 
