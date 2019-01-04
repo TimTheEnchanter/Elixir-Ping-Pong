@@ -1,7 +1,8 @@
 defmodule PingPong do
   def ready do
     receive do
-      {sender, action, 11} ->
+      @gamefinish 11
+      {_sender, _action,  @gamefinish} ->
         IO.puts("#{11} from #{inspect(sender)}, sent #{inspect(action)}")
         IO.puts("Game Over")
         ready
@@ -26,13 +27,12 @@ defmodule PingPong do
     end
   end
 
-  defp player_pid do
-    self
-  end
+  defp player_pid, do: self
 end
 
 player_1 = self
-player_2 = spawn(PingPong, :ready, [])
+# player_2 = spawn(PingPong, :ready, [])
+player_2 = elem(Task.start(PingPong, :ready, []), 1)
 
 IO.puts("player_1: #{inspect(player_1)}")
 IO.puts("player_2: #{inspect(player_2)}")
