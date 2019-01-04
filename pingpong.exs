@@ -4,9 +4,10 @@ defmodule PingPong do
       {sender, action, 11} ->
         IO.puts("#{11} from #{inspect(sender)}, sent #{inspect(action)}")
         IO.puts("Game Over")
+        ready
 
       {sender, action, turn} ->
-        hit_to(sender, :pong, turn + 1)
+        hit_to(sender, switch(action), turn + 1)
         ready
     after
       1_000 -> IO.puts("Timing out #{inspect(player_pid)}")
@@ -18,7 +19,14 @@ defmodule PingPong do
     send(opponent_id, {player_pid, action, turn})
   end
 
-  def player_pid do
+  defp switch(action) do
+    case action do
+      :ping -> :pong
+      _____ -> :ping
+    end
+  end
+
+  defp player_pid do
     self
   end
 end
