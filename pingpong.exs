@@ -23,7 +23,8 @@ defmodule PingPong do
   defp switch(action) do
     case action do
       :ping -> :pong
-      _____ -> :ping
+      "" -> :ping
+      _____ -> "Unrecognized Action"
     end
   end
 
